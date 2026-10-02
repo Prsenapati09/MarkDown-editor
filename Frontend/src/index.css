@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+
+@theme {
+  --color-ink: #191D24;
+  --color-ink-soft: #242A33;
+  --color-ink-line: #363E4A;
+  --color-ink-faint: #5B6472;
+
+  --color-paper: #F2EEE3;
+  --color-paper-raised: #FBF9F3;
+  --color-paper-line: #DDD6C4;
+
+  --color-gold: #C68A3B;
+  --color-gold-deep: #8B5E2B;
+  --color-gold-soft: #E7C081;
+
+  --color-ember: #C1443B;
+  --color-moss: #3F7D58;
+
+  --font-serif: "Source Serif 4", Georgia, serif;
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  * {
+    @apply border-ink-line;
+  }
+  body {
+    @apply font-sans antialiased;
+  }
+  /* Visible keyboard focus everywhere — accessibility floor, not optional */
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-ink;
+  }
+}
+
+@layer utilities {
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Typeset preview content — this is the one place we hand-style prose,
+   since react-markdown renders semantic HTML elements we style directly */
+.prose-folio h1,
+.prose-folio h2,
+.prose-folio h3 {
+  @apply font-serif font-semibold text-ink mt-6 mb-3;
+}
+.prose-folio h1 {
+  @apply text-3xl border-b border-paper-line pb-2;
+}
+.prose-folio h2 {
+  @apply text-2xl;
+}
+.prose-folio h3 {
+  @apply text-xl;
+}
+.prose-folio p {
+  @apply font-serif text-ink/90 leading-7 mb-4;
+}
+.prose-folio a {
+  @apply text-gold-deep underline decoration-gold/40 underline-offset-2 hover:decoration-gold-deep transition-colors;
+}
+.prose-folio ul {
+  @apply list-disc list-outside pl-6 mb-4 font-serif text-ink/90 space-y-1;
+}
+.prose-folio ol {
+  @apply list-decimal list-outside pl-6 mb-4 font-serif text-ink/90 space-y-1;
+}
+.prose-folio blockquote {
+  @apply border-l-2 border-gold pl-4 italic text-ink/70 my-4;
+}
+.prose-folio code {
+  @apply font-mono text-sm bg-ink/5 px-1.5 py-0.5 rounded;
+}
+.prose-folio pre {
+  @apply font-mono text-sm bg-ink text-paper p-4 rounded-md overflow-x-auto mb-4;
+}
+.prose-folio pre code {
+  @apply bg-transparent p-0;
+}
+.prose-folio table {
+  @apply w-full border-collapse mb-4 text-sm font-sans;
+}
+.prose-folio th,
+.prose-folio td {
+  @apply border border-paper-line px-3 py-2 text-left;
+}
+.prose-folio th {
+  @apply bg-ink/5 font-semibold;
+}
+.prose-folio hr {
+  @apply border-paper-line my-6;
+}
+
+.prose-folio .not-prose {
+  margin-left: 0;
+  margin-right: 0;
+}
