@@ -38,14 +38,14 @@ app.use(
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL, // exact frontend origin only — never '*' when using credentials
-    credentials: true, // allow the refresh-token cookie to be sent
+    origin: process.env.CLIENT_URL, 
+    credentials: true, 
   })
 );
 
-app.use(express.json({ limit: '1mb' })); // cap body size — mitigates payload DoS
+app.use(express.json({ limit: '1mb' })); 
 app.use(cookieParser());
-app.use(mongoSanitize()); // strips $ and . from req.body/query/params — blocks NoSQL injection
+app.use(mongoSanitize()); 
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -53,8 +53,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('combined'))
 }
 
-// General rate limit on all API routes; stricter limits are layered on
-// top of specific routes (see authLimiter, writeLimiter)
+
 app.use('/api', apiLimiter);
 
 // --- Routes ---

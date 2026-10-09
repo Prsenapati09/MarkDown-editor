@@ -7,11 +7,7 @@ const api = axios.create({
   withCredentials: true, // sends the httpOnly refresh cookie automatically
 });
 
-// In-memory access token — deliberately NOT localStorage/sessionStorage.
-// If an XSS bug ever slipped through, JS-readable storage would let an
-// attacker steal the token; keeping it only in memory means a page reload
-// is required to re-authenticate, which is an acceptable tradeoff for the
-// security gained.
+
 let accessToken = null;
 
 export const setAccessToken = (token) => {
@@ -28,7 +24,7 @@ api.interceptors.request.use((config) => {
 });
 
 // Queue to avoid firing multiple simultaneous refresh requests if several
-// API calls 401 at the same time
+
 let isRefreshing = false;
 let refreshQueue = [];
 
@@ -45,15 +41,13 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // Only attempt a refresh once per request, and only on 401s that aren't
-    // the refresh call itself (avoids an infinite loop)
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
       !originalRequest.url.includes('/auth/refresh')
     ) {
       if (isRefreshing) {
-        // Another request already triggered a refresh — wait for it
+        
         return new Promise((resolve, reject) => {
           refreshQueue.push({ resolve, reject });
         })

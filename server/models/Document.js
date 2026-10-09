@@ -16,10 +16,6 @@ const documentSchema = new mongoose.Schema(
       default: 'Untitled Document',
     },
     content: {
-      // Raw markdown text as typed by the user.
-      // NOTE: this is sanitized on write (see documentController) and
-      // MUST be sanitized again on render in the frontend (DOMPurify /
-      // react-markdown's built-in escaping) before being shown as HTML.
       type: String,
       default: '',
       maxlength: [200000, 'Document is too large'],

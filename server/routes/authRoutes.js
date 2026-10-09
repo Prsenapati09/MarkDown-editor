@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/register', authLimiter, registerValidation, validate, register);
 router.post('/login', authLimiter, loginValidation, validate, login);
-router.post('/refresh', refresh); // relies on cookie, not a header token — no `protect` needed
+router.post('/refresh', refresh); 
 router.post('/logout', logout);
 router.get('/me', protect, getMe);
 

@@ -1,6 +1,6 @@
 import { body, validationResult } from 'express-validator';
 
-// Runs after the validation chains below and returns 400 with details on failure
+
 export const validate = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

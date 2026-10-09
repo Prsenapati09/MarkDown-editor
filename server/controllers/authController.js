@@ -33,7 +33,7 @@ export const register = asyncHandler(async (req, res) => {
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  // Explicitly select password since schema has select:false
+  
   const user = await User.findOne({ email }).select('+password');
 
   // Deliberately vague error message — don't reveal whether the email exists
@@ -53,7 +53,6 @@ export const login = asyncHandler(async (req, res) => {
 });
 
 // @route  POST /api/auth/refresh
-// Uses the httpOnly refresh cookie to issue a new short-lived access token
 export const refresh = asyncHandler(async (req, res) => {
   const token = req.cookies.refreshToken;
   if (!token) {
@@ -71,7 +70,6 @@ export const refresh = asyncHandler(async (req, res) => {
 
   const user = await User.findById(decoded.userId);
   if (!user || user.refreshTokenVersion !== decoded.tokenVersion) {
-    // Token was issued before a logout-all / password change — reject it
     res.status(401);
     throw new Error('Refresh token is no longer valid');
   }

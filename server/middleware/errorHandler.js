@@ -4,7 +4,6 @@ export const asyncHandler = (fn) => (req, res, next) =>
 
 // Centralized error handler — keeps stack traces out of responses in production
 export const errorHandler = (err, req, res, next) => {
-  // console.error(err.stack);
 
   let statusCode = err.statusCode || 500;
   let message = err.message || 'Server error';
@@ -15,7 +14,7 @@ export const errorHandler = (err, req, res, next) => {
     message = 'Resource not found';
   }
 
-  // Mongoose duplicate key (e.g. email already registered)
+  // Mongoose duplicate key 
   if (err.code === 11000) {
     statusCode = 409;
     message = 'A record with that value already exists';
@@ -29,7 +28,6 @@ export const errorHandler = (err, req, res, next) => {
 
   res.status(statusCode).json({
     message,
-    // Never leak stack traces to the client in production
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
   });
 };

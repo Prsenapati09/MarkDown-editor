@@ -21,11 +21,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Password is required'],
       minlength: [8, 'Password must be at least 8 characters'],
-      select: false, // never return password by default in queries
+      select: false,
     },
     refreshTokenVersion: {
       // Incrementing this invalidates all existing refresh tokens
-      // (used on password change / logout-all / suspected compromise)
       type: Number,
       default: 0,
     },

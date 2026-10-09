@@ -3,7 +3,6 @@ import Document from '../models/Document.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
 // @route  GET /api/documents
-// Returns only the logged-in user's documents (never another user's)
 export const getDocuments = asyncHandler(async (req, res) => {
   const documents = await Document.find({ user: req.userId })
     .select('title updatedAt createdAt') // don't send full content in list view
@@ -28,9 +27,6 @@ export const createDocument = asyncHandler(async (req, res) => {
   const document = await Document.create({
     user: req.userId,
     title: title?.trim() || 'Untitled Document',
-    // Strip any raw HTML/script tags before storing. react-markdown on the
-    // frontend already escapes HTML by default, but sanitizing on write too
-    // gives defense-in-depth for any other consumer of this data (API, export, etc.)
     content: xss(content || ''),
   });
 
